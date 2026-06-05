@@ -78,13 +78,13 @@ echo "  ✓ Git index cleared"
 # --- Step 4: Purge all files --------------------------------------------------
 
 echo "[4/9] Purging all files..."
-find . -maxdepth 1 ! -name '.' ! -name '.git' -exec rm -rf {}
+find . -maxdepth 1 ! -name '.' ! -name '.git' -exec rm -rf {} \;
 echo "  ✓ All files purged"
 
 # --- Step 5: Recreate core files ----------------------------------------------
 
 echo "[5/9] Recreating core files..."
-echo "# $REPO_NAME" >README.md
+echo "# $REPO_NAME" > README.md
 echo "  ✓ README.md created"
 
 if [ -s "$TEMP_GITIGNORE" ]; then
@@ -173,7 +173,7 @@ if [[ "$push_confirm" == "y" || "$push_confirm" == "Y" ]]; then
 
         # Delete all remote tags
         echo "  Cleaning remote tags..."
-        REMOTE_TAGS=$(git ls-remote --tags origin 2>/dev/null | awk '{print $2}' | sed 's|refs/tags/||' | sed 's|^{}||' | sort -u)
+        REMOTE_TAGS=$(git ls-remote --tags origin 2>/dev/null | awk '{print $2}' | sed 's|refs/tags/||' | sed 's|\^{}||' | sort -u)
         if [ -n "$REMOTE_TAGS" ]; then
             echo "$REMOTE_TAGS" | while read -r tag; do
                 echo "  ✗ Deleting remote tag: $tag"
